@@ -1,120 +1,120 @@
 import Foundation
 
 public indirect enum Ast {
-    case ref(Ref)
-    case if_(If)
-    case iflet(Iflet)
-    case get(Get)
-    case set(Set)
-    case define(Define)
-    case match(Match)
-    case lambda(Lambda)
-    case tuple(Tuple)
-    case do_(Do)
-    case fnCall(FnCall)
-    case wrapCall(WrapCall)
-    case structCall(StructCall)
-    case enumerationCall(EnumerationCall)
-    case hollowCall(HollowCall)
-    case enumeral(Enumeral)
-    case struct_(Struct)
-    case wrap(Wrap)
+    case ref(AstRef)
+    case if_(AstIf)
+    case iflet(AstIflet)
+    case get(AstGet)
+    case set(AstSet)
+    case define(AstDefine)
+    case match(AstMatch)
+    case lambda(AstLambda)
+    case tuple(AstTuple)
+    case do_(AstDo)
+    case fnCall(AstFnCall)
+    case wrapCall(AstWrapCall)
+    case structCall(AstStructCall)
+    case enumerationCall(AstEnumerationCall)
+    case hollowCall(AstHollowCall)
+    case enumeral(AstEnumeral)
+    case struct_(AstStruct)
+    case wrap(AstWrap)
     case const(Const)
 }
 
-public struct Ref {
+public struct AstRef {
     let symbol: Symbol
 }
 
-public struct If {
+public struct AstIf {
     let cond: Ast
     let true_: Ast
     let false_: Ast
 }
 
-public struct Iflet {
+public struct AstIflet {
     let symbol: Symbol
     let option: Ast
     let some: Ast
     let none: Ast
 }
 
-public struct Get {
+public struct AstGet {
     let path: [String]
     let val: Ast
 }
 
-public struct Set {
+public struct AstSet {
     let path: [String]
     let src: Ast
     let dest: Ast
 }
 
-public struct Define {
+public struct AstDefine {
     let var_: Symbol
     let expr: Ast
 }
 
-public enum MatchCase {
+public enum AstMatchCase {
     case tag(EnumeralName, Ast)
     case members(EnumeralName, Symbol, Ast)
 }
 
-public struct Match {
+public struct AstMatch {
     let enumeral: Ast
-    let cases: [MatchCase]
+    let cases: [AstMatchCase]
 }
 
-public struct Lambda {
+public struct AstLambda {
     let args: [(Symbol, Type)]
     let expr: Ast
 }
 
-public struct List {
+public struct AstList {
     let list: [Ast]
 }
 
-public struct Tuple {
+public struct AstTuple {
     let tuple: [Ast]
 }
 
-public struct Do {
+public struct AstDo {
     let vals: [Ast]
 }
 
-public struct FnCall {
+public struct AstFnCall {
     let fn: Ast
     let args: [Ast]
 }
 
-public struct EnumerationCall {
+public struct AstEnumerationCall {
     let n: TypeName
     let e: Ast
 }
 
-public struct WrapCall {
+public struct AstWrapCall {
     let n: TypeName
     let w: Ast
 }
 
-public struct StructCall {
+public struct AstStructCall {
     let n: TypeName
     let m: Ast
 }
 
-public struct HollowCall {
+public struct AstHollowCall {
     let n: TypeName
 }
 
-public struct Enumeral {
+public struct AstEnumeral {
     let tag: EnumeralName
     let m: [MemberName: Ast]?
 }
 
-public struct Struct {
+public struct AstStruct {
     let m: [MemberName: Ast]
 }
 
-public struct Wrap {
+public struct AstWrap {
     let w: Ast
 }
