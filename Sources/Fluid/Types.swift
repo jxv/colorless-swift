@@ -1,25 +1,25 @@
 import Foundation
 
-typealias Major = Int
-typealias Minor = Int
-typealias TypeName = String
-typealias EnumeralName = String
-typealias MemberName = String
-typealias Symbol = String
+public typealias Major = Int
+public typealias Minor = Int
+public typealias TypeName = String
+public typealias EnumeralName = String
+public typealias MemberName = String
+public typealias Symbol = String
 
-struct Version {
+public struct Version {
     let major: Major
     let minor: Minor
 }
 
-struct Pull {
+public struct Pull {
     let protocol_: String
     let host: String
     let port: Int
     let path: String
 }
 
-enum RuntimeError {
+public enum RuntimeError {
     case unparsableFormat
     case unrecognizedCall(TypeName)
     case variableLimit
@@ -42,44 +42,44 @@ enum RuntimeError {
     case notMember
 }
 
-struct Limits {
+public struct Limits {
     let variables: Int? = 50
     let serviceCalls: Int? = 50
     let lambdas: Int? = 10
     let expressions: Int? = 100
 }
 
-struct Hooks<Meta,XformMeta> {
+public struct Hooks<Meta,XformMeta> {
     let metaMiddleware: (Meta) -> XformMeta
     let sandboxLimits: (XformMeta) -> Limits
 }
 
-func defaultHooks<Meta>() -> Hooks<Meta,Meta> {
+public func defaultHooks<Meta>() -> Hooks<Meta,Meta> {
     return Hooks<Meta,Meta>(
         metaMiddleware: { (m: Meta) -> Meta in m },
         sandboxLimits: { (m: Meta) -> Limits in Limits.init() }
     )
 }
 
-enum IndirectOptional<A> {
+public enum IndirectOptional<A> {
     indirect case some(A)
     case none
 }
 
-struct Type {
+public struct Type {
     let n: TypeName
     let p: [Type]
     let o: IndirectOptional<Type>
 }
 
-enum Const {
+public enum Const {
     case null
     case bool(Bool)
     case string(String)
     case number
 }
 
-enum Infer {
+public enum Infer {
     case null
     case number(NSNumber)
 }
