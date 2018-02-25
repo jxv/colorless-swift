@@ -8,121 +8,121 @@ public struct EvalConfig {
     let apiCall: (ApiCall) -> Val
 }
 
-indirect public enum Expr {
-    case ref(ExprRef)
+indirect public enum ServerExpr {
+    case ref(ServerExprRef)
 }
 
-public enum ExprUnVal {
+public enum ServerExprUnVal {
     case const(Const)
-    case unWrap(ExprUnWrap)
-    case unStruct(ExprUnStruct)
-    case unEnumeral(ExprUnEnumeral)
+    case unWrap(ServerExprUnWrap)
+    case unStruct(ServerExprUnStruct)
+    case unEnumeral(ServerExprUnEnumeral)
 }
 
-public struct ExprUnWrap {
-    let w: Expr
+public struct ServerExprUnWrap {
+    let w: ServerExpr
 }
 
-public struct ExprUnStruct {
-    let m: [MemberName: Expr]
+public struct ServerExprUnStruct {
+    let m: [MemberName: ServerExpr]
 }
 
-public struct ExprUnEnumeral {
+public struct ServerExprUnEnumeral {
     let tag: EnumeralName
-    let m: [MemberName: Expr]?
+    let m: [MemberName: ServerExpr]?
 }
 
-public struct ExprRef {
+public struct ServerExprRef {
     let symbol: Symbol
 }
 
-public struct ExprIf {
-    let cond: Expr
-    let true_: Expr
-    let false_: Expr
+public struct ServerExprIf {
+    let cond: ServerExpr
+    let true_: ServerExpr
+    let false_: ServerExpr
 }
 
-public struct ExprIfLet {
+public struct ServerExprIfLet {
     let symbol: Symbol
-    let option: Expr
-    let some: Expr
-    let none: Expr
+    let option: ServerExpr
+    let some: ServerExpr
+    let none: ServerExpr
 }
 
-public struct ExprGet {
+public struct ServerExprGet {
     let path: [String]
-    let expr: Expr
+    let expr: ServerExpr
 }
 
-public struct ExprSet {
+public struct ServerExprSet {
     let path: [String]
-    let src: Expr
-    let dest: Expr
+    let src: ServerExpr
+    let dest: ServerExpr
 }
 
-public enum ExprMatchCase {
-    case tag(Expr)
-    case members(Symbol, Expr)
+public enum ServerExprMatchCase {
+    case tag(ServerExpr)
+    case members(Symbol, ServerExpr)
 }
 
-public struct ExprMatch {
-    let enumeral: Expr
-    let cases: [EnumeralName: ExprMatchCase]
+public struct ServerExprMatch {
+    let enumeral: ServerExpr
+    let cases: [EnumeralName: ServerExprMatchCase]
 }
 
-public struct ExprDefine {
+public struct ServerExprDefine {
     let var_: Symbol
-    let expr: Expr
+    let expr: ServerExpr
 }
 
-public struct ExprLambda {
+public struct ServerExprLambda {
     let params: [(Symbol, Type)]
-    let expr: Expr
+    let expr: ServerExpr
 }
 
-typealias ExprFn = (EvalConfig, [Expr]) -> Expr
+typealias ServerExprFn = (EvalConfig, [ServerExpr]) -> ServerExpr
 
-public struct ExprList {
-    let list: [Expr]
+public struct ServerExprList {
+    let list: [ServerExpr]
 }
 
-public struct ExprTuple {
-    let tuple: [Expr]
+public struct ServerExprTuple {
+    let tuple: [ServerExpr]
 }
 
-public struct ExprDo {
-    let exprs: [Expr]
+public struct ServerExprDo {
+    let exprs: [ServerExpr]
 }
 
-public struct ExprFnCall {
-    let fn: Expr
-    let args: [Expr]
+public struct ServerExprFnCall {
+    let fn: ServerExpr
+    let args: [ServerExpr]
 }
 
 public enum ApiUnCall {
-    case hollowUnCall(ExprHollowUnCall)
-    case wrapUnCall(ExprWrapUnCall)
-    case structUnCall(ExprStructUnCall)
-    case enumerationUnCall(ExprEnumerationUnCall)
+    case hollowUnCall(ServerExprHollowUnCall)
+    case wrapUnCall(ServerExprWrapUnCall)
+    case structUnCall(ServerExprStructUnCall)
+    case enumerationUnCall(ServerExprEnumerationUnCall)
 }
 
-public struct ExprHollowUnCall {
+public struct ServerExprHollowUnCall {
     let n: TypeName
 }
 
-public struct ExprWrapUnCall {
+public struct ServerExprWrapUnCall {
     let n: TypeName
-    let w: Expr
+    let w: ServerExpr
 }
 
-public struct ExprStructUnCall {
+public struct ServerExprStructUnCall {
     let n: TypeName
-    let m: Expr
+    let m: ServerExpr
 }
 
-public struct ExprEnumerationUnCall {
+public struct ServerExprEnumerationUnCall {
     let n: TypeName
-    let e: Expr
+    let e: ServerExpr
 }
 
 public enum ApiCall {
