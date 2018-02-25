@@ -61,9 +61,65 @@ public func defaultHooks<Meta>() -> Hooks<Meta,Meta> {
     )
 }
 
-public enum IndirectOptional<A> {
-    indirect case some(A)
+public enum IndirectOptional<Wrapped> : ExpressibleByNilLiteral {
+    indirect case some(Wrapped)
     case none
+
+    public init(nilLiteral: ()) {
+      self = .none
+    }
+
+    @_inlineable
+    public func map<U>(
+        _ transform: (Wrapped) throws -> U
+    ) rethrows -> IndirectOptional<U> {
+        switch self {
+        case .some(let y):
+            return .some(try transform(y))
+        case .none:
+            return .none
+        }
+    }
+
+    @_inlineable
+    public func flatMap<U>(
+        _ transform: (Wrapped) throws -> IndirectOptional<U>
+    ) rethrows -> IndirectOptional<U> {
+        switch self {
+        case .some(let y):
+            return try transform(y)
+        case .none:
+            return .none
+        }
+    }
+}
+
+extension IndirectOptional : Equatable where Wrapped : Equatable {
+    @_inlineable
+    public static func ==(lhs: IndirectOptional<Wrapped>, rhs: IndirectOptional<Wrapped>) -> Bool {
+        switch (lhs, rhs) {
+            case let (.some(l) , .some(r)):
+                return l == r
+            case (nil, nil):
+                return true
+            default:
+                return false
+        }
+    }
+    @_inlineable
+    public static func !=(lhs: IndirectOptional<Wrapped>, rhs: IndirectOptional<Wrapped>) -> Bool {
+        return !(lhs == rhs)
+    }
+}
+
+extension IndirectOptional : Encodable where Wrapped : Encodable {
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        switch self {
+            case .none: try container.encodeNil()
+            case .some(let wrapped): try container.encode(wrapped)
+        }
+    }
 }
 
 public struct Type {
