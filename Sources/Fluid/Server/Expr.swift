@@ -2,7 +2,7 @@ import Foundation
 
 public struct EvalConfig {
     let limits: Limits
-    var langServiceCallLimit: Int
+    var langServiceCallCount: Int
     var langLambdaCount: Int
     var langExprCount: Int
     let apiCall: (ApiCall) -> Val
