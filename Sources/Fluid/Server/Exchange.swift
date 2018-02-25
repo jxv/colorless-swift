@@ -1,17 +1,16 @@
 import Foundation
-import SwiftyJSON
 
-public struct ServerRequest {
-    let meta: JSON
-    let query: JSON
+public struct ServerRequest : Codable {
+    let meta: Data
+    let query: Data
 }
 
 public enum ResponseError {
-    case service(JSON)
+    case service(Data)
     case runtime(RuntimeError)
 }
 
 public enum Response {
     case error(ResponseError)
-    case success(JSON, Limits)
+    case success(Data, Limits)
 }

@@ -7,7 +7,7 @@ public typealias EnumeralName = String
 public typealias MemberName = String
 public typealias Symbol = String
 
-public struct Version {
+public struct Version : Codable {
     let major: Major
     let minor: Minor
 }
@@ -42,7 +42,7 @@ public enum RuntimeError {
     case notMember
 }
 
-public struct Limits {
+public struct Limits : Codable {
     let variables: Int? = 50
     let serviceCalls: Int? = 50
     let lambdas: Int? = 10
