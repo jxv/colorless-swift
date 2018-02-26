@@ -9,7 +9,26 @@ public struct EvalConfig {
 }
 
 indirect public enum ServerExpr {
-    case ref(ServerExprRef)
+  case ref(ServerExprRef)
+  case unVal(ServerExprUnVal)
+  case val(Val)
+  case if_(ServerExprIf)
+  case iflet(ServerExprIflet)
+  case get(ServerExprGet)
+  case set(ServerExprSet)
+  case match(ServerExprMatch)
+  case define(ServerExprDefine)
+  case lambda(ServerExprLambda)
+  case list(ServerExprList)
+  case tuple(ServerExprTuple)
+  case fn(ServerExprFn)
+  case fnCall(ServerExprFnCall)
+  case do_(ServerExprDo)
+  case apiUnCall(ApiUnCall)
+}
+
+public struct ServerExprRef {
+    let symbol: Symbol
 }
 
 public enum ServerExprUnVal {
@@ -32,17 +51,13 @@ public struct ServerExprUnEnumeral {
     let m: [MemberName: ServerExpr]?
 }
 
-public struct ServerExprRef {
-    let symbol: Symbol
-}
-
 public struct ServerExprIf {
     let cond: ServerExpr
     let true_: ServerExpr
     let false_: ServerExpr
 }
 
-public struct ServerExprIfLet {
+public struct ServerExprIflet {
     let symbol: Symbol
     let option: ServerExpr
     let some: ServerExpr
@@ -80,7 +95,9 @@ public struct ServerExprLambda {
     let expr: ServerExpr
 }
 
-typealias ServerExprFn = (EvalConfig, [ServerExpr]) -> ServerExpr
+public struct ServerExprFn {
+  let run: (EvalConfig, [ServerExpr]) -> ServerExpr
+}
 
 public struct ServerExprList {
     let list: [ServerExpr]
