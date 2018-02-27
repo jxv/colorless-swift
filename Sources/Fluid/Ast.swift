@@ -41,7 +41,7 @@ public struct AstIflet {
 
 public struct AstGet {
     let path: [String]
-    let val: Ast
+    let ast: Ast
 }
 
 public struct AstSet {
